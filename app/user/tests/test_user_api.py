@@ -13,6 +13,7 @@ CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
 
+
 def create_user(**params):
     """Create and return a new user."""
     return get_user_model().objects.create_user(**params)
@@ -48,6 +49,7 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_password_too_short_error(self):
         """Test an error is returned if password less than 5 chars."""
         payload = {
@@ -105,10 +107,11 @@ class PublicUserApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
+
 class PrivateUserApiTests(TestCase):
     """Test API requests that require authentication."""
     def setUp(self):
-        ## da se brze moze testirati funkcija, bez dodatne autentikacije
+        # da se brze moze testirati funkcija, bez dodatne autentikacije
         self.user = create_user(
             email='test@example.com',
             password='testpass123',
@@ -143,4 +146,3 @@ class PrivateUserApiTests(TestCase):
         self.assertEqual(self.user.name, payload['name'])
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-
