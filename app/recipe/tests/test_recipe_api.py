@@ -56,7 +56,7 @@ class PublicRecipeAPITests(TestCase):
         self.client = APIClient()
 
     def test_auth_required(self):
-        """Test unauthenticated is required to call API."""
+        """Test auth is required to call API."""
         res = self.client.get(RECIPES_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -208,9 +208,9 @@ class PrivateRecipeAPITests(TestCase):
         """Test creating a recipe with new tags."""
         payload = {
             'title': 'Thai Prawn Curry',
-            'time_miutes': 30,
+            'time_minutes': 30,
             'price': Decimal('2.50'),
-            'tags': [{'name': 'Thai'}, {'name': 'Dinner'}]
+            'tags': [{'name': 'Thai'}, {'name': 'Dinner'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
