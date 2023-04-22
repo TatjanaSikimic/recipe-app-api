@@ -37,6 +37,8 @@ class RecipeViewSets(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         """Create a new recipe."""
+        # ModelViewSet create metoda po defaultu ne setuje
+        # user-a na user-a koji je kreirao objekat
         serializer.save(user=self.request.user)
 
 
