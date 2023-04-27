@@ -36,7 +36,7 @@ def detail_url(recipe_id):
 
 def image_upload_url(recipe_id):
     """Create and return a recipe detail URL."""
-    return reverse('recipe:recipe-detail', args=[recipe_id])
+    return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 
 def create_recipe(user, **params):
@@ -395,7 +395,7 @@ class ImageUploadTests(TestCase):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
             'user@example.com',
-            'password123'
+            'password123',
         )
         self.client.force_authenticate(self.user)
         self.recipe = create_recipe(user=self.user)
@@ -406,8 +406,8 @@ class ImageUploadTests(TestCase):
     def test_upload_image(self):
         """Test uploading an image to a recipe."""
         url = image_upload_url(self.recipe.id)
-        with tempfile.NamedTemporaryFile(suffix='jpg') as image_file:
-            img = Image.new('RGB', (10,10))
+        with tempfile.NamedTemporaryFile(suffix='.jpg') as image_file:
+            img = Image.new('RGB', (10, 10))
             img.save(image_file, format='JPEG')
             image_file.seek(0)
             payload = {'image': image_file}
@@ -419,8 +419,8 @@ class ImageUploadTests(TestCase):
         self.assertTrue(os.path.exists(self.recipe.image.path))
 
     def test_upload_image_bad_request(self):
-        """Test uploading invalid image."""
-        url = image_upload_url(self.recipe_id)
+        """Test uploading an invalid image."""
+        url = image_upload_url(self.recipe.id)
         payload = {'image': 'notanimage'}
         res = self.client.post(url, payload, format='multipart')
 
