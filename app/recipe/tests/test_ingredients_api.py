@@ -45,7 +45,7 @@ class PublicIngredientsApiTests(TestCase):
 
 
 class PrivateIngredientsApiTests(TestCase):
-    """Test unauthenticated API requests."""
+    """Test authenticated API requests."""
 
     def setUp(self):
         self.user = create_user()
@@ -66,7 +66,7 @@ class PrivateIngredientsApiTests(TestCase):
 
     def test_ingredients_limited_to_user(self):
         """Test list of ingredients is limited to authenticated user."""
-        user2 = create_user(email='user2example.com')
+        user2 = create_user(email='user2@example.com')
         Ingredient.objects.create(user=user2, name='Salt')
         ingredient = Ingredient.objects.create(user=self.user, name='Pepper')
 
@@ -120,7 +120,7 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertNotIn(s2.data, res.data)
 
     def test_filtered_ingredients_unique(self):
-        """Test filtered ingredient returns a unique list."""
+        """Test filtered ingredients returns a unique list."""
         ing = Ingredient.objects.create(user=self.user, name='Eggs')
         Ingredient.objects.create(user=self.user, name='Lentils')
         recipe1 = Recipe.objects.create(

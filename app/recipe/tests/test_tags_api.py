@@ -32,12 +32,12 @@ def create_user(email='user@example.com', password='testpass123'):
 
 
 class PublicTagsApiTests(TestCase):
-    """Test unauthenticates API request."""
+    """Test unauthenticated API requests."""
 
     def setUp(self):
         self.client = APIClient()
 
-    def test_auth_require(self):
+    def test_auth_required(self):
         """Test auth is required for retrieving tags."""
         res = self.client.get(TAGS_URL)
 

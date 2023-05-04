@@ -409,7 +409,7 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_filter_by_ingredients(self):
         """Test filtering recipes by ingredients."""
-        r1 = create_recipe(user=self.user, title='Post Beans on Toast')
+        r1 = create_recipe(user=self.user, title='Posh Beans on Toast')
         r2 = create_recipe(user=self.user, title='Chicken Cacciatore')
         in1 = Ingredient.objects.create(user=self.user, name='Feta Cheese')
         in2 = Ingredient.objects.create(user=self.user, name='Chicken')
